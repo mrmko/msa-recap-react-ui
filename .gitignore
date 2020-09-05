@@ -1,3 +1,7 @@
+# Let's exclude all of build for now - M Saunby, Aug 2020
+build/
+node_modules/
+
 # Logs
 logs
 *.log
