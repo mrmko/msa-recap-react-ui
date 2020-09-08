@@ -1,7 +1,9 @@
 // See https://developer.mozilla.org/en-US/docs/Web/API/Screen_Capture_API/Using_Screen_Capture
 // for the original version of this code with detailed explanation.
 
-export { enableScreenCap, disableScreenCap, startScreenCapture, stopScreenCapture, downloadScreenCapture };
+export { enableScreenCap, disableScreenCap, startScreenCapture, pauseScreenCapture, 
+    stopScreenCapture, downloadScreenCapture, getCaptureBlob };
+
 
 // Options for getDisplayMedia()
 
@@ -61,6 +63,38 @@ function startScreenCapture() {
     }
 }
 
+
+function pauseScreenCapture() {
+    if (mediaRecorder) {
+        if(mediaRecorder.state === "recording"){
+            console.info("Screen recording paused")
+            mediaRecorder.pause();
+        }
+    }
+
+}
+
+function stopScreenCapture() {
+    if (mediaRecorder) {
+        if(mediaRecorder.state !== "inactive"){
+            mediaRecorder.requestData();
+            mediaRecorder.stop();
+        }
+
+    }
+}
+
+function dumpOptionsInfo() {
+    const videoElem = document.getElementById("video");
+    const videoTrack = videoElem.srcObject.getVideoTracks()[0];
+
+    console.info("Track settings:");
+    console.info(JSON.stringify(videoTrack.getSettings(), null, 2));
+    console.info("Track constraints:");
+    console.info(JSON.stringify(videoTrack.getConstraints(), null, 2));
+}
+
+
 function downloadScreenCapture(filename) {
     let data = chunks;
     let screen_capture = new Blob(data, {
@@ -76,19 +110,10 @@ function downloadScreenCapture(filename) {
     window.URL.revokeObjectURL(url);
 }
 
-function stopScreenCapture() {
-    if (mediaRecorder) {
-        mediaRecorder.requestData();
-        mediaRecorder.stop();
-    }
+function getCaptureBlob(){
+    let screen_capture = new Blob(chunks, {
+        type: "video/webm"
+    });
+    return screen_capture;
 }
 
-function dumpOptionsInfo() {
-    const videoElem = document.getElementById("video");
-    const videoTrack = videoElem.srcObject.getVideoTracks()[0];
-
-    console.info("Track settings:");
-    console.info(JSON.stringify(videoTrack.getSettings(), null, 2));
-    console.info("Track constraints:");
-    console.info(JSON.stringify(videoTrack.getConstraints(), null, 2));
-}

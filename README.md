@@ -7,6 +7,43 @@ A web UI for an Azure microservices architecture project by Michael Saunby.
 Note that the repository does not include the node_modules directory (see .gitignore) so to build from a fresh
 clone first run ```npm install```. 
 
+To run Azure functions (the API) then first run ```sudo apt-get install azure-functions-core-tools-3```
+
+See <https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Cnode%2Cbash> for more information.
+
+To run js/ts functions open a new terminal -
+
+```sh
+cd api
+npm install
+npm start
+```
+
+To run python functions -
+
+```python3.8 -m pip install -r requirements.txt```
+
+```sh
+cd api
+func start
+```
+
+In the react web app root folder add a proxy entry to ```package.json```. See 
+
+<https://docs.microsoft.com/en-us/azure/static-web-apps/local-development>
+
+<https://create-react-app.dev/docs/proxying-api-requests-in-development/>
+
+```json
+"scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject"
+  },
+  "proxy": "http://127.0.0.1:7071",
+...
+```
+
 ## Available Scripts
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
