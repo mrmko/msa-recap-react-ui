@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@azure/storage-blob": "^12.2.0-preview.1",
     "@types/jest": "^24.0.0",
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
@@ -19,6 +20,7 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject"
   },
+  "proxy": "http://127.0.0.1:7071",
   "eslintConfig": {
     "extends": "react-app"
   },
