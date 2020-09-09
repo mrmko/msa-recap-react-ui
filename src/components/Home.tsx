@@ -16,12 +16,13 @@ import { withRouter } from "react-router-dom";
 
 function Home() {
 
+  const [disabled, setDisabled] = useState({enable:false,start:true,pause:true,end:true,upload:true,download:true});
+
   const [filename, setFilename] = useState("recording");
 
-  let startCapture = () => {
-    startAudioCapture();
-    startScreenCapture();
-  }
+  //setDisabled({enable:false,start:true,pause:true,end:true,upload:true,download:true});
+
+
 
   function download() {
     downloadScreenCapture(filename);
@@ -45,14 +46,55 @@ function Home() {
   console.info = (msg: any) => updateLog("info", msg);
   */
 
+  /*
+  enum recordingStateEnum {
+    disabled,
+    enabled,
+    recording,
+    paused,
+    stopped,
+    downloading
+  };
+
+  let recordingState: recordingStateEnum = recordingStateEnum.disabled;
+
+  function setRecordingState(state: recordingStateEnum) {
+
+    recordingState = state;
+
+    switch (state) {
+      case recordingStateEnum.disabled:
+        break;
+      case recordingStateEnum.enabled:
+        break;
+      case recordingStateEnum.recording:
+        break;
+      case recordingStateEnum.paused:
+        break;
+      case recordingStateEnum.stopped:
+        break;
+      case recordingStateEnum.downloading:
+        break;
+    }
+  }
+  */
+
   let enableRecording = () => {
     enableMicrophone();
     enableScreenCap();
+    setDisabled({enable:true,start:false,pause:true,end:true,upload:true,download:true});
+  }
+
+  let startRecording = () => {
+    startAudioCapture();
+    startScreenCapture();
+    setDisabled({enable:true,start:true,pause:false,end:false,upload:true,download:true});
   }
 
   let pauseRecording = () => {
     pauseAudioCapture();
     pauseScreenCapture();
+    setDisabled({enable:true,start:false,pause:true,end:false,upload:true,download:true});
   }
 
   let endRecording = () => {
@@ -60,29 +102,32 @@ function Home() {
     stopScreenCapture();
     disableMicrophone();
     disableScreenCap();
+    setDisabled({enable:false,start:true,pause:true,end:true,upload:false,download:false});
   }
 
   let project = '';
 
   let upload = () => {
 
-    projectName().then((name)=>{
+    projectName().then((name) => {
       project = name;
-    console.log("project", project)
+      console.info("project", project);
 
-    if (project) {
-      console.info("Calling upload()");
-      let ablob: Blob = getAudioCaptureBlob();
-      uploadBlob(ablob, project, "ogg").then((m) => {
-        console.warn("Upload message", m);
-      });
-      let vblob: Blob = getCaptureBlob();
-      uploadBlob(vblob, project, "webm").then((m) => {
-        console.warn("Upload message", m);
-      });
-    }
-  });
+      if (project) {
+        console.info("Calling upload()");
+        let ablob: Blob = getAudioCaptureBlob();
+        uploadBlob(ablob, project, "ogg").then((m) => {
+          console.warn("Upload message", m);
+        });
+        let vblob: Blob = getCaptureBlob();
+        uploadBlob(vblob, project, "webm").then((m) => {
+          console.warn("Upload message", m);
+        });
+      }
+    }).catch((err)=>{console.warn(err)});
   }
+
+ 
 
   return (
     <div className="App">
@@ -90,30 +135,29 @@ function Home() {
       <hr></hr>
 
       <p>
-        <button id="enableRecording" onClick={enableRecording}>Enable Recording</button>
+        <button id="enableRecording" disabled={disabled.enable} onClick={enableRecording}>Enable Recording</button>
       </p>
       <p>
-        <button id="start" onClick={startCapture}>Start Recording</button>
-        <button id="pause" onClick={pauseRecording}>Pause Recording</button>
-      </p>
-
-      <p>
-        <button id="endRecording" onClick={endRecording}>End Recording</button>
+        <button id="start" disabled={disabled.start} onClick={startRecording}>Start Recording</button>
+        <button id="pause" disabled={disabled.pause} onClick={pauseRecording}>Pause Recording</button>
+        <button id="endRecording" disabled={disabled.end} onClick={endRecording}>End Recording</button>
       </p>
 
-      <p>
-        <button id="download" onClick={download}>Download</button>
-        <input type="text" value={filename} onChange={(evt) => { setFilename(evt.target.value) }} />
-      </p>
+
 
       <p>
-        <button id="upload" onClick={upload}>Upload</button>
+        <button id="upload" disabled={disabled.upload} onClick={upload}>Upload</button>
         <span>{project}</span>
       </p>
       <hr></hr>
 
       <video controls muted id="video" autoPlay></video>
       <br></br>
+
+      <p>
+        <button id="download" disabled={disabled.download} onClick={download}>Download</button>
+        <input type="text" value={filename} onChange={(evt) => { setFilename(evt.target.value) }} />
+      </p>
 
       <div style={{ textAlign: 'left' }}>
         <br></br>

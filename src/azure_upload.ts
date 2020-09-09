@@ -5,12 +5,12 @@ export { uploadBlob, projectName };
 async function projectName():Promise<string> {
     let response = await fetch('api/projectName');
     if (!response.ok) {
-      console.error('no projectName');
+      throw new Error('No project name returned');
     }
     return await response.text();
 }
 
-// It is possible that for large files it may be necessary to call blob.slice() and
+// For large files it will be necessary to call blob.slice() and
 // upload in parts.
 async function uploadBlob(blob: Blob, name: string, exten: string):Promise<string> {
   console.info("Blob size", blob.size);
