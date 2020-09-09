@@ -115,7 +115,6 @@ function Home() {
       <video controls muted id="video" autoPlay></video>
       <br></br>
 
-      <strong>Log:</strong>
       <div style={{ textAlign: 'left' }}>
         <br></br>
         <pre>{log}</pre>

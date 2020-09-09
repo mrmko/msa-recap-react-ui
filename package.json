@@ -1,5 +1,5 @@
 {
-  "name": "audio-capture-app",
+  "name": "msa-recap",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
