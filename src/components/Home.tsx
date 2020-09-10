@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import {
   enableMicrophone, disableMicrophone, startAudioCapture, stopAudioCapture,
@@ -19,6 +20,8 @@ function Home() {
   const [disabled, setDisabled] = useState({enable:false,start:true,pause:true,end:true,upload:true,download:true});
 
   const [filename, setFilename] = useState("recording");
+
+  const [project, setProject] = useState('');
 
   //setDisabled({enable:false,start:true,pause:true,end:true,upload:true,download:true});
 
@@ -80,6 +83,9 @@ function Home() {
   */
 
   let enableRecording = () => {
+    projectName().then((name) => {
+      setProject(name);
+    }).catch((err)=>{console.warn(err)});
     enableMicrophone();
     enableScreenCap();
     setDisabled({enable:true,start:false,pause:true,end:true,upload:true,download:true});
@@ -105,13 +111,9 @@ function Home() {
     setDisabled({enable:false,start:true,pause:true,end:true,upload:false,download:false});
   }
 
-  let project = '';
+ 
 
   let upload = () => {
-
-    projectName().then((name) => {
-      project = name;
-      console.info("project", project);
 
       if (project) {
         console.info("Calling upload()");
@@ -124,7 +126,7 @@ function Home() {
           console.warn("Upload message", m);
         });
       }
-    }).catch((err)=>{console.warn(err)});
+    
   }
 
  
@@ -147,7 +149,9 @@ function Home() {
 
       <p>
         <button id="upload" disabled={disabled.upload} onClick={upload}>Upload</button>
-        <span>{project}</span>
+        <span>&nbsp;&nbsp;
+        <Link to={"/viewer/"+project}>{project}</Link>
+        </span>
       </p>
       <hr></hr>
 
