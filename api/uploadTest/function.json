@@ -20,7 +20,7 @@
       "name": "outputBlob",
       "type": "blob",
       "dataType": "binary",
-      "path": "recordings/{name}.{exten}",
+      "path": "recordings{insights}/{name}.{exten}",
       "connection": "MyStorageConnectionAppSetting",
       "direction": "out"
     }

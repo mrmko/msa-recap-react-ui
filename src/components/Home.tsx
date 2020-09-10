@@ -118,11 +118,11 @@ function Home() {
       if (project) {
         console.info("Calling upload()");
         let ablob: Blob = getAudioCaptureBlob();
-        uploadBlob(ablob, project, "ogg").then((m) => {
+        uploadBlob(ablob, project, "ogg", true).then((m) => {
           console.warn("Upload message", m);
         });
         let vblob: Blob = getCaptureBlob();
-        uploadBlob(vblob, project, "webm").then((m) => {
+        uploadBlob(vblob, project, "webm", false).then((m) => {
           console.warn("Upload message", m);
         });
       }
