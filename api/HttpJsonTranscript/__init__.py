@@ -8,7 +8,7 @@ import json
 
 from . import ExtractTranscript
 
-def main(req: func.HttpRequest, jsonBlob: func.InputStream, outputBlob: func.Out[str]) -> func.HttpResponse:
+def main(req: func.HttpRequest, jsonBlob: func.InputStream, outputBlob: func.Out[func.InputStream]) -> func.HttpResponse:
     
     insightsData = json.loads(jsonBlob.read(-1))
     transcript = []

@@ -23,10 +23,13 @@ def insights_to_srt(data, outStrings: [str]):
 def insights_to_vtt(data, outStrings: [str]):
     outStrings.append('WEBVTT\n\n')
     index = 1
-    for segment in data['videos'][0]['insights']['transcript']:
-        start_time = format_time(segment['instances'][0]['start'])
-        end_time = format_time(segment['instances'][0]['end'])
-        text = segment['text']
-        outStrings.append(f'{start_time} --> {end_time}\n{text}\n\n')
-        index += 1
+    try:
+        for segment in data['videos'][0]['insights']['transcript']:
+            start_time = format_time(segment['instances'][0]['start'])
+            end_time = format_time(segment['instances'][0]['end'])
+            text = segment['text']
+            outStrings.append(f'{start_time} --> {end_time}\n{text}\n\n')
+            index += 1
+    except KeyError:
+         outStrings.append('SILENCE\n\n')
     

@@ -1,3 +1,7 @@
+# This test requires a sample insights.json file.
+# run as
+# python3.8 ExtractTranscript/
+
 from __init__ import insights_to_srt
 
 result = []
