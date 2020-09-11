@@ -45,9 +45,9 @@ function Viewer() {
         </p>
             <p>
               <video controls id="video" preload="metadata" crossOrigin="*" autoPlay>
-                <source src={"https://saunby.blob.core.windows.net/recordings/" + slug + ".webm"}
+                <source src={"https://saunby.blob.core.windows.net/recordings/" + project + ".webm"}
                   type="video/webm" />
-                <track label="English" kind="subtitles" srcLang="en" src="https://saunby.blob.core.windows.net/recordings/recording.vtt" default>
+                <track label="English" kind="subtitles" srcLang="en" src={"https://saunby.blob.core.windows.net/recordings/" + project + ".vtt"} default>
                 </track>
 
               </video>
