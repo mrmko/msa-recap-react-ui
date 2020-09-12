@@ -18,7 +18,8 @@ function Viewer() {
     }
   };
 
-  async function createTranscript(): Promise<string> {
+  async function createTranscriptCall(): Promise<string> {
+    console.info("fetching",JSON.stringify(data));
     let response = await fetch('/api/HttpJsonTranscript', {
       method: 'POST',
       headers: {
@@ -30,6 +31,10 @@ function Viewer() {
       throw new Error('Unable to create transcript');
     }
     return await response.text();
+  }
+
+  let createTranscript = () =>{
+    createTranscriptCall().then((msg)=>{console.info(msg)}).catch((err)=>{console.warn(err);})
   }
 
   return (
