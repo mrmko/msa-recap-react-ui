@@ -23,6 +23,8 @@ function Home() {
 
   const [project, setProject] = useState('');
 
+  const [uploadLabel, setUploadLabel] = useState('Upload');
+
   //setDisabled({enable:false,start:true,pause:true,end:true,upload:true,download:true});
 
 
@@ -115,6 +117,8 @@ function Home() {
 
   let upload = () => {
 
+    setUploadLabel('Uploading...');
+    setDisabled({enable:true,start:true,pause:true,end:true,upload:true,download:false});
       if (project) {
         console.info("Calling upload()");
         let ablob: Blob = getAudioCaptureBlob();
@@ -124,6 +128,9 @@ function Home() {
         let vblob: Blob = getCaptureBlob();
         uploadBlob(vblob, project, "webm", false).then((m) => {
           console.warn("Upload message", m);
+          // This is lazy, but the webm will finish uploading last.
+          setUploadLabel('Upload');
+          setDisabled({enable:false,start:true,pause:true,end:true,upload:true,download:false});
         });
       }
     
@@ -148,7 +155,7 @@ function Home() {
 
 
       <p>
-        <button id="upload" disabled={disabled.upload} onClick={upload}>Upload</button>
+        <button id="upload" disabled={disabled.upload} onClick={upload}>{uploadLabel}</button>
         <span>&nbsp;&nbsp;
         <Link to={"/viewer/"+project}>{project}</Link>
         </span>

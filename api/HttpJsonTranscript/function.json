@@ -22,14 +22,6 @@
       "path": "insights/{Insights.FileName}",
       "connection": "MyStorageConnectionAppSetting",
       "direction": "in"
-    },
-    {
-      "name": "outputBlob",
-      "type": "blob",
-      "dataType": "binary",
-      "path": "recordings/{Transcript.FileName}",
-      "connection": "MyStorageConnectionAppSetting",
-      "direction": "out"
     }
   ]
 }
