@@ -46,6 +46,7 @@ function Viewer() {
     createTranscriptCall().then((msg) => { console.info(msg);
       setTranscript('data:text/plain;base64,'+msg)
      }).catch((err) => { console.warn(err); })
+
   }
 
   return (
