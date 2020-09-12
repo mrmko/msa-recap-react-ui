@@ -19,6 +19,7 @@ function Viewer() {
   };
 
   async function createTranscript(): Promise<string> {
+    console.info("fetching",JSON.stringify(data));
     let response = await fetch('/api/HttpJsonTranscript', {
       method: 'POST',
       headers: {
