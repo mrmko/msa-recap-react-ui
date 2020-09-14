@@ -11,6 +11,6 @@ def main(req: func.HttpRequest, outputBlob: func.Out[func.InputStream]) -> func.
 
     name = req.params.get('name')
     exten = req.params.get('exten')
-
+    # Param 'insights' will need to be set to '-for-insights' to generate transcript
     return func.HttpResponse(f"{name}.{exten} successfully uploaded.")
 
