@@ -109,3 +109,6 @@ dist
 
 #
 api/azure-functions-core-tools/.telemetry/
+.python_packages
+__pycache__
+.venv
