@@ -1,0 +1,25 @@
+{
+  
+  "hosting": {
+    "appAssociation": "AUTO",
+    "public": "build",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      
+ { "source": "/app/**", "dynamicLinks": true }
+    ]
+  },
+
+  "emulators": {
+    "functions": {
+      "port": 5001
+    },
+    "ui": {
+      "enabled": true
+    }
+  }
+}
