@@ -6,9 +6,10 @@ var sha1 = require("sha1");
 var bodyParser = require("body-parser");
 const os = require("os");
 const speech = require("@google-cloud/speech");
-const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
-var ffmpeg = require('fluent-ffmpeg');
+const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
+var ffmpeg = require("fluent-ffmpeg");
 const serviceAccount = require("./serviceAccount.json");
+const u = require("uid");
 
 // The Firebase Admin SDK to access Cloud Firestore.
 const admin = require("firebase-admin");
@@ -20,7 +21,7 @@ admin.initializeApp({
 
 exports.fu = functions.https.onRequest((req, res) => {
   const busboy = new Busboy({
-    headers: req.headers,  
+    headers: req.headers,
     limits: {
       fileSize: 10 * 1024 * 1024,
     },
@@ -65,70 +66,67 @@ exports.fu = functions.https.onRequest((req, res) => {
           });
 
           // Reads a local audio file and converts it to base64
-         
 
           var inStream = fs.createReadStream(filepath);
-          var proc = new ffmpeg({ source: inStream, nolog: true })
+          var proc = new ffmpeg({ source: inStream, nolog: true });
           const audioFilepath = path.join(tmpdir, "audio.mp3");
 
-          proc.setFfmpegPath(ffmpegPath)
-          .fromFormat('webm')
-          .toFormat('mp3')
+          proc
+            .setFfmpegPath(ffmpegPath)
+            .fromFormat("webm")
+            .toFormat("mp3")
 
-          .on('end', function() {
-            console.log('file has been converted successfully');
-            const file = fs.readFileSync(audioFilepath);
-            const audioBytes = file.toString("base64");
+            .on("end", function () {
+              console.log("file has been converted successfully");
+              const file = fs.readFileSync(audioFilepath);
+              const audioBytes = file.toString("base64");
 
+              const pConfig = {
+                projectId: serviceAccount.project_id,
+                keyFilename: require.resolve("./serviceAccount.json"),
+              };
 
-          const pConfig = {
-            projectId: serviceAccount.project_id,
-            keyFilename: require.resolve("./serviceAccount.json"),
-          };
+              const client = new speech.SpeechClient(pConfig);
+              const encoding = "MP3";
+              const languageCode = "en-US";
 
-          const client = new speech.SpeechClient(pConfig);
-          const encoding = "MP3";
-          const languageCode = "en-US";
+              console.log(serviceAccount.project_id);
 
-          console.log(serviceAccount.project_id);
+              const config = {
+                encoding: encoding,
+                sampleRateHertz: 16000,
+                languageCode: languageCode,
+                audioChannelCount: 2, // hit 'Invalid audio channel count' if not specify
+                enableAutomaticPunctuation: true, // https://cloud.google.com/speech-to-text/docs/automatic-punctuation
+              };
 
-          const config = {
-            encoding: encoding,
-            sampleRateHertz: 16000,
-            languageCode: languageCode,
-            audioChannelCount: 2, // hit 'Invalid audio channel count' if not specify
-            enableAutomaticPunctuation: true, // https://cloud.google.com/speech-to-text/docs/automatic-punctuation
-          };
+              const audio = {
+                content: audioBytes,
+              };
 
-          const audio = {
-            content: audioBytes,
-          };
+              const request = {
+                audio: audio,
+                config: config,
+              };
 
-          const request = {
-            audio: audio,
-            config: config,
-          };
-
-          // Detects speech in the audio file
-          client
-            .recognize(request)
-            .then((response) => {
-              console.log(response);
-              const transcription = response[0].results
-                .map((result) => result.alternatives[0].transcript)
-                .join("\n");
-              res.send(`Transcription ${transcription} created.`);
+              // Detects speech in the audio file
+              client
+                .recognize(request)
+                .then((response) => {
+                  console.log(response);
+                  const transcription = response[0].results
+                    .map((result) => result.alternatives[0].transcript)
+                    .join("\n");
+                  res.send(`Transcription ${transcription} created.`);
+                })
+                .catch(console.error);
             })
-            .catch(console.error);
-            })
-            .on('error', function(err) {
-            console.log('an error happened: ' + err.message);
-            res.send(`File Error`);
+            .on("error", function (err) {
+              console.log("an error happened: " + err.message);
+              res.send(`File Error`);
             })
             // save to file <-- the new file I want -->
             .saveToFile(audioFilepath);
-
-            
         });
         writeStream.on("error", reject);
       })
@@ -144,7 +142,7 @@ exports.fu = functions.https.onRequest((req, res) => {
 });
 
 exports.projectName = functions.https.onRequest((request, response) => {
-  response.send("Random Project Name");
+  response.send(u.uid());
 });
 
 exports.uploadFiles = functions.https.onRequest((request, response) => {
