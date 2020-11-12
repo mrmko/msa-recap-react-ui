@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 
 import {
   enableMicrophone, disableMicrophone, startAudioCapture, stopAudioCapture,
-  downloadAudioCapture, pauseAudioCapture, getAudioCaptureBlob
+  downloadAudioCapture, pauseAudioCapture, getAudioCaptureBlob, 
 } from "../audio_capture";
 import {
   startScreenCapture, stopScreenCapture, enableScreenCap, disableScreenCap,
-  downloadScreenCapture, pauseScreenCapture, getCaptureBlob
+  downloadScreenCapture, pauseScreenCapture, getCaptureBlob, uploadScreenCapture
 } from "../capture";
 import { projectName, uploadBlob } from "../azure_upload";
 import { withRouter } from "react-router-dom";
@@ -32,55 +32,7 @@ function Home() {
     downloadAudioCapture(filename);
   }
 
-  let log = '';
 
-  /*
-  const [log, setLog] = useState(<></>);
-
-
-  let updateLog = (cl: string, msg: string) => {
-    logArray.push(<span className={cl}>{msg}<br></br></span>);
-    setLog(<>{[...logArray]}</>);
-  }
-
-  console.log = (msg: any) => updateLog("info", msg);
-  console.error = (msg: any) => updateLog("error", msg);
-  console.warn = (msg: any) => updateLog("warn", msg);
-  console.info = (msg: any) => updateLog("info", msg);
-  */
-
-  /*
-  enum recordingStateEnum {
-    disabled,
-    enabled,
-    recording,
-    paused,
-    stopped,
-    downloading
-  };
-
-  let recordingState: recordingStateEnum = recordingStateEnum.disabled;
-
-  function setRecordingState(state: recordingStateEnum) {
-
-    recordingState = state;
-
-    switch (state) {
-      case recordingStateEnum.disabled:
-        break;
-      case recordingStateEnum.enabled:
-        break;
-      case recordingStateEnum.recording:
-        break;
-      case recordingStateEnum.paused:
-        break;
-      case recordingStateEnum.stopped:
-        break;
-      case recordingStateEnum.downloading:
-        break;
-    }
-  }
-  */
 
   let enableRecording = () => {
     projectName().then((name) => {
@@ -114,18 +66,17 @@ function Home() {
  
 
   let upload = () => {
+    uploadScreenCapture("test")
 
-      if (project) {
+      /*if (project) {
         console.info("Calling upload()");
         let ablob: Blob = getAudioCaptureBlob();
-        uploadBlob(ablob, project, "ogg", true).then((m) => {
-          console.warn("Upload message", m);
-        });
+        //uploadBlob(ablob, project, "ogg", true).then((m) => {
+         // console.warn("Upload message", m);
+       // });
         let vblob: Blob = getCaptureBlob();
-        uploadBlob(vblob, project, "webm", false).then((m) => {
-          console.warn("Upload message", m);
-        });
-      }
+        uploadScreenCapture("test")
+      }*/
     
   }
 
@@ -165,7 +116,7 @@ function Home() {
 
       <div style={{ textAlign: 'left' }}>
         <br></br>
-        <pre>{log}</pre>
+
       </div>
     </div>
 

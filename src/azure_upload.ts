@@ -1,5 +1,6 @@
 export { uploadBlob, projectName };
 
+
 // See https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 
 async function projectName(): Promise<string> {
@@ -9,6 +10,7 @@ async function projectName(): Promise<string> {
   }
   return await response.text();
 }
+
 
 // For large files it will be necessary to call blob.slice() and
 // upload in parts.
