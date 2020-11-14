@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { getTranscript } from "../data/transcript";
 
@@ -7,6 +7,9 @@ import { getTranscript } from "../data/transcript";
 function Viewer() {
   // @ts-ignore
   let { slug } = useParams();
+
+  const [transcript, setTranscript] = useState("");
+  const [loading, setLoading] = useState(false);
 
   let project = slug;
 
@@ -20,11 +23,17 @@ function Viewer() {
               <button
                 id="transcript"
                 onClick={() => {
-                  getTranscript(project);
+                  setLoading(true);
+                  getTranscript(project).then((t) => {
+                    console.log("got transcript");
+                    setTranscript(t);
+                    setLoading(false);
+                  });
                 }}
               >
                 Create transcript
               </button>
+              {transcript}
             </p>
             <p>
               <video

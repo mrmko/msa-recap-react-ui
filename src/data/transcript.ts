@@ -10,6 +10,5 @@ async function getTranscript(fileName: string): Promise<string> {
     throw new Error("No transcript returned");
   }
   console.log(response);
-  console.log(response.body);
   return await response.text();
 }
