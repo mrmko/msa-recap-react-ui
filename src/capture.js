@@ -137,7 +137,7 @@ function uploadScreenCapture(filename) {
     type: "video/webm",
   });
 
-  firebase.storage().ref(`images/${filename}.webm`).put(screen_capture);
+  firebase.storage().ref(`videos/${filename}.webm`).put(screen_capture);
 }
 
 function getCaptureBlob() {
