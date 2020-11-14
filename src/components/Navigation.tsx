@@ -7,7 +7,7 @@ function Navigation(props: any) {
   const history = useHistory();
   return (
     <div className="navigation">
-      <AppBar position="static">
+      <AppBar position="static" style={{ backgroundColor: "#0373fc" }}>
         <Toolbar>
           <Typography variant="h6" style={{ flexGrow: 1 }}>
             Screen Recorder with Transcription
