@@ -5,34 +5,31 @@ A web UI for an Azure microservices architecture project by Michael Saunby.
 ## Installation
 
 Note that the repository does not include the node_modules directory (see .gitignore) so to build from a fresh
-clone first run ```npm install```. 
+clone first run `npm install`.
 
-To run Azure functions (the API) then first run ```sudo apt-get install azure-functions-core-tools-3```
+To run azure functioms you need to install firebase cli <https://firebase.google.com/docs/cli>
 
-See <https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Cnode%2Cbash> for more information.
-
-To run js/ts functions open a new terminal -
+To run the firebase functions locally run the following: -
 
 ```sh
-cd api
-npm install
-npm start
+firebase emulators:start
 ```
 
-To run python functions -
+To deploy a new version to firebase, complete the following:
 
-```python3.8 -m pip install -r requirements.txt```
+The following will build and deploy both the front end and the cloud functions
 
 ```sh
-cd api
-func start
+yarn build
+firebase --deploy
 ```
 
-In the react web app root folder add a proxy entry to ```package.json```. See 
+Run the following commands to deploy only the front end or cloud functions
 
-<https://docs.microsoft.com/en-us/azure/static-web-apps/local-development>
-
-<https://create-react-app.dev/docs/proxying-api-requests-in-development/>
+```sh
+firebase --deploy --only functions
+firebase --deploy --only hosting
+```
 
 ```json
 "scripts": {

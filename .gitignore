@@ -109,3 +109,4 @@ dist
 
 #
 api/azure-functions-core-tools/.telemetry/
+.firebase/
