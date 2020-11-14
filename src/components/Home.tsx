@@ -109,17 +109,7 @@ function Home() {
   };
 
   let upload = () => {
-    uploadScreenCapture("test");
-
-    /*if (project) {
-        console.info("Calling upload()");
-        let ablob: Blob = getAudioCaptureBlob();
-        //uploadBlob(ablob, project, "ogg", true).then((m) => {
-         // console.warn("Upload message", m);
-       // });
-        let vblob: Blob = getCaptureBlob();
-        uploadScreenCapture("test")
-      }*/
+    uploadScreenCapture(project);
   };
 
   return (

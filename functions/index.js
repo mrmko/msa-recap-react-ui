@@ -26,7 +26,6 @@ admin.initializeApp({
 //firebase function to get the transcript from the given audio file
 exports.getTranscript = functions.https.onRequest((req, res) => {
   return cors(req, res, async () => {
-
     //get filename from query
     const fileName = req.query.fileName;
     console.log(fileName);
@@ -39,12 +38,11 @@ exports.getTranscript = functions.https.onRequest((req, res) => {
     const tempFilePath = path.join(tempDir, fileName);
     console.log(tempFilePath);
 
-   //get the file from the bucket
+    //get the file from the bucket
     bucket
       .file("videos/" + fileName)
       .download({ destination: tempFilePath })
       .then(() => {
-        
         //create ffmpeg object
         var proc = new ffmpeg({ source: tempFilePath, nolog: true });
 
@@ -59,7 +57,6 @@ exports.getTranscript = functions.https.onRequest((req, res) => {
           .toFormat("mp3")
 
           .on("end", function () {
-
             console.log("file has been converted successfully");
 
             //read newly converted file and conert to base64
@@ -106,14 +103,14 @@ exports.getTranscript = functions.https.onRequest((req, res) => {
                 const transcription = response[0].results
                   .map((result) => result.alternatives[0].transcript)
                   .join("\n");
-                  //send transcript result back to client
-                res.send(`${transcription}`);
+                //send transcript result back to client
+                res.status(200).send(`${transcription}`);
               })
               .catch(console.error);
           })
           .on("error", function (err) {
             console.log("an error happened: " + err.message);
-            res.send(`File Error`);
+            res.status(401).send(`File Error`);
           })
           .saveToFile(audioFilepath);
       });
