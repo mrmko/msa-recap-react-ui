@@ -8,7 +8,8 @@ function About() {
           <div className="col-lg-5">
             <h1 className="font-weight-light">About</h1>
             <p>
-              A Microservices example project using Azure functions.
+              A Microservices example screen recorder project using firebase
+              functions.
             </p>
           </div>
         </div>
