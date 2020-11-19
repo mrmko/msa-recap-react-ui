@@ -23,6 +23,7 @@ import {
 } from "../capture";
 import { projectName } from "../data/projectName";
 import { withRouter } from "react-router-dom";
+import { Button, TextField } from "@material-ui/core";
 
 // const logArray = Array(<></>);
 
@@ -117,34 +118,42 @@ function Home() {
       <hr></hr>
 
       <p>
-        <button
-          id="enableRecording"
+        <Button
           disabled={disabled.enable}
+          variant="outlined"
           onClick={enableRecording}
         >
           Enable Recording
-        </button>
+        </Button>
       </p>
       <p>
-        <button id="start" disabled={disabled.start} onClick={startRecording}>
+        <Button
+          variant="outlined"
+          disabled={disabled.start}
+          onClick={startRecording}
+        >
           Start Recording
-        </button>
-        <button id="pause" disabled={disabled.pause} onClick={pauseRecording}>
+        </Button>
+        <Button
+          variant="outlined"
+          disabled={disabled.pause}
+          onClick={pauseRecording}
+        >
           Pause Recording
-        </button>
-        <button
-          id="endRecording"
+        </Button>
+        <Button
+          variant="outlined"
           disabled={disabled.end}
           onClick={endRecording}
         >
           End Recording
-        </button>
+        </Button>
       </p>
 
       <p>
-        <button id="upload" disabled={disabled.upload} onClick={upload}>
+        <Button variant="outlined" disabled={disabled.upload} onClick={upload}>
           Upload
-        </button>
+        </Button>
         <span>
           &nbsp;&nbsp;
           <Link to={"/viewer/" + project}>{project}</Link>
@@ -156,16 +165,23 @@ function Home() {
       <br></br>
 
       <p>
-        <button id="download" disabled={disabled.download} onClick={download}>
-          Download
-        </button>
-        <input
-          type="text"
+        <TextField
+          id="standard-basic"
+          label="Recording Name"
           value={filename}
-          onChange={(evt) => {
-            setFilename(evt.target.value);
+          onChange={(e) => {
+            setFilename(e.target.value);
           }}
         />
+      </p>
+      <p>
+        <Button
+          variant="outlined"
+          disabled={disabled.download}
+          onClick={download}
+        >
+          Download
+        </Button>
       </p>
 
       <div style={{ textAlign: "left" }}>

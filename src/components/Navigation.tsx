@@ -1,59 +1,43 @@
+import { Button, Toolbar, Typography } from "@material-ui/core";
+import AppBar from "@material-ui/core/AppBar/AppBar";
 import React from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link, withRouter, useHistory } from "react-router-dom";
 
-function Navigation(props:any) {
+function Navigation(props: any) {
+  const history = useHistory();
   return (
     <div className="navigation">
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container">
-          <Link className="navbar-brand" to="/">
-            Recap - A microservices demo by Michael Saunby
-          </Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarResponsive"
-            aria-controls="navbarResponsive"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
+      <AppBar position="static" style={{ backgroundColor: "#0373fc" }}>
+        <Toolbar>
+          <Typography variant="h6" style={{ flexGrow: 1 }}>
+            Screen Recorder with Transcription
+          </Typography>
+          <Button
+            color="inherit"
+            onClick={() => {
+              history.push("/");
+            }}
           >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarResponsive">
-            <ul className="navbar-nav ml-auto">
-              <li
-                className={`nav-item  ${
-                  props.location.pathname === "/" ? "active" : ""
-                }`}
-              >
-                <Link className="nav-link" to="/">
-                  Home
-                  <span className="sr-only">(current)</span>
-                </Link>
-              </li>
-              <li
-                className={`nav-item  ${
-                  props.location.pathname === "/about" ? "active" : ""
-                }`}
-              >
-                <Link className="nav-link" to="/about">
-                  About
-                </Link>
-              </li>
-              <li
-                className={`nav-item  ${
-                  props.location.pathname === "/viewer" ? "active" : ""
-                }`}
-              >
-                <Link className="nav-link" to="/viewer">
-                  Viewer
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+            Home
+          </Button>
+          <Button
+            color="inherit"
+            onClick={() => {
+              history.push("/about");
+            }}
+          >
+            About
+          </Button>
+          <Button
+            color="inherit"
+            onClick={() => {
+              history.push("/viewer");
+            }}
+          >
+            Viewer
+          </Button>
+        </Toolbar>
+      </AppBar>
     </div>
   );
 }
